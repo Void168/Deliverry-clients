@@ -9,9 +9,11 @@ import {
   DropdownTrigger,
 } from "@nextui-org/react";
 import { CgProfile } from "react-icons/cg";
+import AuthScreen from "../screens/AuthScreen";
 
 const ProfileDropdown = () => {
   const [signedIn, setSignedIn] = useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
     <div className="flex items-center gap-4">
@@ -40,8 +42,16 @@ const ProfileDropdown = () => {
           </DropdownMenu>
         </Dropdown>
       ) : (
-        <CgProfile className="text-2xl cursor-pointer"/>
+        <CgProfile
+          className="text-2xl cursor-pointer"
+          onClick={() => setOpen(!open)}
+        />
       )}
+      {
+        open && (
+            <AuthScreen />
+        )
+      }
     </div>
   );
 };
