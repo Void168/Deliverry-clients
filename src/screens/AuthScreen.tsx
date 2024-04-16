@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import Login from '../shared/Auth/Login'
+import Signup from '../shared/Auth/Signup'
 
 const AuthScreen = () => {
     const [activeState, setActiveState ] = useState("Login")
@@ -9,6 +10,9 @@ const AuthScreen = () => {
         <div className="w-[450px] max-h-max bg-slate-900 rounded shadow-sm p-3">
             {
                 activeState === "Login" && <Login setActiveState={setActiveState} />
+            }
+            {
+                activeState === "Signup" && <Signup setActiveState={setActiveState} />
             }
         </div>
     </div>
