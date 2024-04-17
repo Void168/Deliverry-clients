@@ -8,6 +8,9 @@ import { FcGoogle } from "react-icons/fc";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import { z } from "zod";
 import { useState } from "react";
+import { useMutation } from '@apollo/client'
+import { REGISTER_USER } from "@/src/graphql/actions/register.action";
+import toast from "react-hot-toast/headless";
 
 const formSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters long!"),
@@ -15,7 +18,7 @@ const formSchema = z.object({
   password: z.string().min(8, "Password must be at least 8 characters long!"),
   phone_number: z
     .number()
-    .min(9, "Phone number must be at least 11 characters!"),
+    .min(10, "Phone number must be at least 10 characters!"),
 });
 
 type RegisterSchema = z.infer<typeof formSchema>;
@@ -25,6 +28,7 @@ const Signup = ({
 }: {
   setActiveState: (e: string) => void;
 }) => {
+  const [registerUserMutation, { loading }] = useMutation(REGISTER_USER)
   const {
     register,
     handleSubmit,
@@ -36,9 +40,17 @@ const Signup = ({
 
   const [show, setShow] = useState(false);
 
-  const onSubmit = (data: RegisterSchema) => {
-    console.log(data);
-    reset();
+  const onSubmit = async (data: RegisterSchema) => {
+    try {
+      const res = await registerUserMutation({
+        variables: data
+      })
+      localStorage.setItem("activation_token", res.data.activation_token)
+      toast.success("Please check your email to activate your account!")
+      reset()
+    } catch (error:any) {
+      toast.error(error.message)
+    }
   };
 
   return (
@@ -54,6 +66,11 @@ const Signup = ({
             placeholder="Your Name"
             className={`${styles.input}`}
           />
+          {errors.name && (
+            <span className="text-rose-500 block">
+              {`${errors.name.message}`}
+            </span>
+          )}
         </div>
         <div>
           <label className={`${styles.label}`}>Enter your Email</label>
@@ -75,17 +92,22 @@ const Signup = ({
           </label>
           <input
             type="number"
-            {...register("phone_number")}
+            {...register("phone_number", { valueAsNumber: true })}
             placeholder="+84*********"
             className={`${styles.input}`}
           />
+          {errors.phone_number && (
+            <span className="text-rose-500 block">
+              {`${errors.phone_number.message}`}
+            </span>
+          )}
         </div>
-        <div className="w-full relative">
+        <div className="w-full">
           <label htmlFor="password" className={`${styles.label}`}>
             Enter your password
           </label>
           <input
-            type="email"
+            type={show ? 'text' : 'password'}
             {...register("password")}
             placeholder="password!@#$%"
             className={`${styles.input}`}
@@ -110,12 +132,11 @@ const Signup = ({
           )}
         </div>
         <div className="w-full relative space-y-4">
-          <input
+          <button
             type="submit"
-            value="Login"
-            disabled={isSubmitting}
+            disabled={isSubmitting || loading}
             className={`${styles.button}`}
-          />
+          >Submit</button>
           <h5 className="text-center pt-4 font-Poppins text-[16px] text-white">
             Or join with
           </h5>

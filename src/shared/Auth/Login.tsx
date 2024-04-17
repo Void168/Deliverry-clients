@@ -55,7 +55,7 @@ const Login = ({ setActiveState }: { setActiveState: (e: string) => void }) => {
             Enter your password
           </label>
           <input
-            type="email"
+            type="password"
             {...register("password")}
             placeholder="password!@#$%"
             className={`${styles.input}`}
