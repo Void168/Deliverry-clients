@@ -3,14 +3,17 @@
 import styles from "@/src/utils/style";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { AiFillGithub } from "react-icons/ai";
+import {
+  AiFillGithub,
+  AiOutlineEyeInvisible,
+  AiOutlineEye,
+} from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
-import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import { z } from "zod";
 import { useState } from "react";
-import { useMutation } from '@apollo/client'
+import { useMutation } from "@apollo/client";
 import { REGISTER_USER } from "@/src/graphql/actions/register.action";
-import toast from "react-hot-toast/headless";
+import toast from "react-hot-toast";
 
 const formSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters long!"),
@@ -28,7 +31,7 @@ const Signup = ({
 }: {
   setActiveState: (e: string) => void;
 }) => {
-  const [registerUserMutation, { loading }] = useMutation(REGISTER_USER)
+  const [registerUserMutation, { loading }] = useMutation(REGISTER_USER);
   const {
     register,
     handleSubmit,
@@ -42,14 +45,18 @@ const Signup = ({
 
   const onSubmit = async (data: RegisterSchema) => {
     try {
-      const res = await registerUserMutation({
-        variables: data
-      })
-      localStorage.setItem("activation_token", res.data.activation_token)
-      toast.success("Please check your email to activate your account!")
-      reset()
-    } catch (error:any) {
-      toast.error(error.message)
+      const response = await registerUserMutation({
+        variables: data,
+      });
+      localStorage.setItem(
+        "activation_token",
+        response.data.register.activation_token
+      );
+      toast.success("Please check your email to activate your account!");
+      reset();
+      setActiveState("Verification");
+    } catch (error: any) {
+      toast.error(error.message);
     }
   };
 
@@ -107,7 +114,7 @@ const Signup = ({
             Enter your password
           </label>
           <input
-            type={show ? 'text' : 'password'}
+            type={show ? "text" : "password"}
             {...register("password")}
             placeholder="password!@#$%"
             className={`${styles.input}`}
@@ -136,7 +143,9 @@ const Signup = ({
             type="submit"
             disabled={isSubmitting || loading}
             className={`${styles.button}`}
-          >Submit</button>
+          >
+            Submit
+          </button>
           <h5 className="text-center pt-4 font-Poppins text-[16px] text-white">
             Or join with
           </h5>
