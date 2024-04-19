@@ -1,12 +1,11 @@
 "use client";
-
 import { gql, DocumentNode } from "@apollo/client";
 
 export const REGISTER_USER: DocumentNode = gql`
   mutation RegisterUser(
     $name: String!
-    $email: String!
     $password: String!
+    $email: String!
     $phone_number: Float!
   ) {
     register(
@@ -17,7 +16,7 @@ export const REGISTER_USER: DocumentNode = gql`
         phone_number: $phone_number
       }
     ) {
-      activate_token
+      activation_token
     }
   }
 `;
