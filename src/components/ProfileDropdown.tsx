@@ -49,7 +49,7 @@ const ProfileDropdown = () => {
       )}
       {
         open && (
-            <AuthScreen />
+            <AuthScreen setOpen={setOpen}/>
         )
       }
     </div>
