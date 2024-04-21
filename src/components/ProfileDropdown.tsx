@@ -21,14 +21,14 @@ const ProfileDropdown = () => {
 
   useEffect(() => {
     if(!loading){
-      setSignedIn(!!user)
+      setSignedIn(true)
     }
   },[loading, user])
 
   const logoutHandler = () => {
     Cookies.remove("access_token")
     Cookies.remove("refresh_token")
-    toast.success("Log out successfully")
+    toast.success("Logout successfully")
     window.location.reload()
   }
 
@@ -46,7 +46,7 @@ const ProfileDropdown = () => {
           <DropdownMenu aria-label="Profile Actions" variant="flat">
             <DropdownItem key="profile" className="h-14 gap-2">
               <p className="font-semibold">Signed in as</p>
-              <p className="font-semibold">{user.email}</p>
+              <p className="font-semibold">{user?.email}</p>
             </DropdownItem>
             <DropdownItem key="settings">My Profile</DropdownItem>
             <DropdownItem key="all_orders">All Orders</DropdownItem>
