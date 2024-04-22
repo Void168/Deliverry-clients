@@ -1,5 +1,5 @@
 "use server";
-import prisma from "../lib/prismaDb";
+import prisma from "../lib/prismadb";
 import * as bcrypt from "bcrypt";
 
 const generateRandomPassword = () => {

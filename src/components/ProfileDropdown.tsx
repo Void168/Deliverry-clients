@@ -37,11 +37,11 @@ const ProfileDropdown = () => {
   };
 
   const logoutHandler = () => {
-    // console.log('hello')
+    console.log('hello')
     Cookies.remove("access_token")
     Cookies.remove("refresh_token")
     toast.success("Logout successfully")
-    window.location.reload()
+    // window.location.reload()
   }
 
   return (
@@ -56,16 +56,16 @@ const ProfileDropdown = () => {
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
-            <DropdownItem key="profile" className="h-14 gap-2">
+            <DropdownItem key="profile" className="h-14 gap-2" textValue="profile">
               <p className="font-semibold">Signed in as</p>
               <p className="font-semibold">{data?.user ? data.user.email : user?.email}</p>
             </DropdownItem>
-            <DropdownItem key="settings">My Profile</DropdownItem>
-            <DropdownItem key="all_orders">All Orders</DropdownItem>
-            <DropdownItem key="team_settings">
+            <DropdownItem key="settings" textValue="settings">My Profile</DropdownItem>
+            <DropdownItem key="all_orders" textValue="all_orders">All Orders</DropdownItem>
+            <DropdownItem key="team_settings" textValue="team_settings">
               Apply for seller account
             </DropdownItem>
-            <DropdownItem key="logout" color="danger" onClick={logoutHandler}>
+            <DropdownItem key="logout" color="danger" onClick={() => signOut() || logoutHandler} textValue="logout">
               Log Out
             </DropdownItem>
           </DropdownMenu>
