@@ -3,7 +3,6 @@
 import styles from "@/src/utils/style";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { AiFillGithub } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import { z } from "zod";
@@ -12,6 +11,7 @@ import toast from "react-hot-toast";
 import { LOGIN_USER } from "@/src/graphql/actions/login.action";
 import { useMutation } from "@apollo/client";
 import Cookies from "js-cookie";
+import { signIn } from "next-auth/react"
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -124,8 +124,7 @@ const Login = ({
             Or join with
           </h5>
           <div className="flex items-center justify-center my-3">
-            <FcGoogle size={30} className="cursor-pointer mr-2" />
-            <AiFillGithub size={30} className="cursour-pointer ml-2" />
+            <FcGoogle size={30} className="cursor-pointer mr-2" onClick={() => signIn()}/>
           </div>
           <h5 className="text-center pt-4 font-Poppins text-[14px] text-white">
             Not have any account?
