@@ -21,7 +21,7 @@ const ProfileDropdown = () => {
 
   useEffect(() => {
     if(!loading){
-      setSignedIn(true)
+      setSignedIn(!!user)
     }
   },[loading, user])
 
